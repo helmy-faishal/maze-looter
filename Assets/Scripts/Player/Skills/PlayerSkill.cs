@@ -15,9 +15,14 @@ public class PlayerSkill : MonoBehaviour
     public KeyCode skillKey = KeyCode.E;
     public Action OnSkillActive;
     public Action OnSkillDeactivate;
+
+    [HideInInspector]
     public bool isDetectableWhenActive = true;
+    [HideInInspector]
     public SkillType skillType = SkillType.None;
+    [HideInInspector]
     public int maxSkillUsage = 1;
+    [HideInInspector]
     public float skillDelay = 3f;
 
     bool canUseSkill = true;
@@ -29,19 +34,24 @@ public class PlayerSkill : MonoBehaviour
 
     public void UsingSkill(Action func)
     {
-        if (maxSkillUsage <= 0 || !this.CanUseSkill) return;
-
         if (Input.GetKeyDown(this.skillKey))
         {
-            maxSkillUsage--;
-
-            this.StartSkill(func);
-
-            UIManager.Instance?.SetSkillText(maxSkillUsage);
+            this.UsingSkillImmediately(func);
         }
     }
 
-    public void StartSkill(Action skillFunc)
+    public void UsingSkillImmediately(Action func)
+    {
+        if (maxSkillUsage <= 0 || !this.CanUseSkill) return;
+
+        maxSkillUsage--;
+
+        this.StartSkill(func);
+
+        UIManager.Instance?.SetSkillText(maxSkillUsage);
+    }
+
+    void StartSkill(Action skillFunc)
     {
         if (!canUseSkill) return;
 

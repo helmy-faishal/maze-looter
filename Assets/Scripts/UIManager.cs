@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] TMP_Text skillText;
     [SerializeField] TMP_Text healthText;
-    [SerializeField] GameObject enemyChasingObject;
+    [SerializeField] TMP_Text objectiveText;
     [SerializeField] GameObject warningObject;
     [SerializeField] float warningDelay = 2f;
 
@@ -20,8 +20,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        enemyChasingObject.SetActive(false);
         warningObject.SetActive(false);
+        SetObjectiveText("- Picking up Treasure");
     }
 
     public void SetSkillText(int value)
@@ -34,10 +34,9 @@ public class UIManager : MonoBehaviour
         healthText.text = $"x{value}";
     }
 
-    public void SetChasingActive()
+    public void SetObjectiveText(string text)
     {
-        StopAllCoroutines();
-        StartCoroutine(NotificationCoroutine(enemyChasingObject));
+        objectiveText.text = text;
     }
 
     public void SetWarningActive()

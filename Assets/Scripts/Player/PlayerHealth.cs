@@ -6,6 +6,12 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] int maxHealth = 5;
 
+    ReviveSkill reviveSkill;
+    bool IsPlayerCanRevive
+    {
+        get { return reviveSkill != null; }
+    }
+
     int health;
 
     private void Awake()
@@ -15,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
+        reviveSkill = GetComponent<ReviveSkill>();
         UIManager.Instance?.SetHealthText(health);
     }
 
@@ -37,6 +44,14 @@ public class PlayerHealth : MonoBehaviour
 
     void PlayerDead()
     {
-        SceneSwitching.Instance?.LoseScene();
+        if (IsPlayerCanRevive)
+        {
+            reviveSkill.StartRevive(RevivePlayer);
+            reviveSkill = null;
+        }
+        else
+        {
+            SceneSwitching.Instance?.LoseScene();
+        }
     }
 }

@@ -47,8 +47,6 @@ public class DetectPlayer : MonoBehaviour
             {
                 enemyAI.SwitchToPatrol();
             }
-
-            UIManager.Instance?.SetChasingActive();
             PlayerWarning.Instance?.SetEnemyChasing(_isChasing);
         }
     }

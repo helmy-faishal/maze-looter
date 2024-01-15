@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,7 @@ using UnityEngine;
 public class ReviveSkill : PlayerSkill
 {
     [SerializeField] int skillUsage = 1;
-    [SerializeField] float skillDuration = 7f;
-
-    PlayerHealth health;
+    [SerializeField] float skillDuration = 15f;
 
     private void Awake()
     {
@@ -22,13 +21,9 @@ public class ReviveSkill : PlayerSkill
         UIManager.Instance?.SetSkillText(this.maxSkillUsage);
     }
 
-    void Update()
+    public void StartRevive(Action reviveFunc)
     {
-        this.UsingSkill(StartRevive);
-    }
-
-    void StartRevive()
-    {
-        health.RevivePlayer();
+        this.UsingSkillImmediately(reviveFunc);
+        UIManager.Instance?.SetSkillText(this.maxSkillUsage);
     }
 }

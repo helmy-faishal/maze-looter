@@ -10,6 +10,7 @@ public class PlayerWarning : MonoBehaviour
     const string WarningBlinking = "Blinking";
 
     int totalEnemy = 0;
+    int totalChase = 0;
 
     public static PlayerWarning Instance;
 
@@ -29,21 +30,16 @@ public class PlayerWarning : MonoBehaviour
 
         totalEnemy += (active ? 1 : -1);
         totalEnemy = Mathf.Max(0, totalEnemy);
-
-        if (totalEnemy > 0)
-        {
-            warningObject.SetActive(true);
-        }
-        else
-        {
-            warningObject.SetActive(false);
-        }
+        warningObject.SetActive(totalEnemy > 0);
     }
 
     public void SetEnemyChasing(bool chase)
     {
         if (animator == null) return;
 
-        animator.SetBool(WarningBlinking, chase);
+        totalChase += (chase ? 1 : -1);
+        totalChase = Mathf.Max(0, totalChase);
+
+        animator.SetBool(WarningBlinking, totalEnemy > 0);
     }
 }

@@ -122,6 +122,7 @@ public class PlayerInteraction : MonoBehaviour
         if (pickableObject.tag == "Treasure")
         {
             hasPickTreasure = true;
+            UIManager.Instance?.SetObjectiveText("- Exit Maze");
         }
 
         pickableObject.SetActive(false);
@@ -136,5 +137,33 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         ResetCanvas();
+    }
+
+    void ProcessInteraction(GameObject obj)
+    {
+        switch (obj.tag)
+        {
+            case "Exit Maze":
+                ExitMaze exitMaze = obj.GetComponent<ExitMaze>();
+
+                if (exitMaze == null) return;
+
+                exitMaze.OnObjectInteracted?.Invoke();
+
+                if (exitMaze.canExitMaze)
+                {
+                    SceneSwitching.Instance?.WinScene();
+                }
+                else
+                {
+                    UIManager.Instance?.SetWarningActive();
+                }
+                break;
+
+            default :
+                Interactable interactable = obj.GetComponent<Interactable>();
+                interactable.OnObjectInteracted?.Invoke();
+                break;
+        }
     }
 }
