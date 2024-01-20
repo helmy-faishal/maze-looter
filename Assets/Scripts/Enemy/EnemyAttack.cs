@@ -62,7 +62,7 @@ public class EnemyAttack : MonoBehaviour
     void Update()
     {
         CanDetectPlayer = detectPlayer.CanDetectPlayer;
-        if (!CanDetectPlayer) return;
+        if (!CanDetectPlayer || !detectPlayer.IsChasing) return;
         Attack();
     }
 

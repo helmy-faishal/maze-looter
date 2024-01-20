@@ -10,13 +10,13 @@ public class PatrolState : IBaseState
 
     public void EnterState(EnemyAI enemy)
     {
-        Debug.Log("Enter Patrol");
+        //Debug.Log("Enter Patrol");
         isMoving = false;
     }
 
     public void ExitState(EnemyAI enemy)
     {
-        Debug.Log("Exit Patrol");
+        //Debug.Log("Exit Patrol");
     }
 
     public void UpdateState(EnemyAI enemy)

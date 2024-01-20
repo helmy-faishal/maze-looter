@@ -12,21 +12,32 @@ public class SceneSwitching : MonoBehaviour
         Instance = this;
     }
 
-    public void SwitchScene(string sceneName)
+    public void SwitchScene(string sceneName, bool isGameScene = false)
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        if (GameSession.Instance != null)
+        {
+            GameSession.Instance.isGameScene = isGameScene;
+        }
+        
         SceneManager.LoadScene(sceneName);
     }
 
     public void PlayGame()
     {
-        SwitchScene("Game");
+        SwitchScene("Game",true);
     }
 
     public void MainMenu()
     {
         SwitchScene("MainMenu");
+    }
+
+    public void SelectSkillScene()
+    {
+        SwitchScene("SkillSelection");
     }
 
     public void QuitGame()

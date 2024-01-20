@@ -12,13 +12,13 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     float horizontal, vertical;
+    float speedMultiplier = 1;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         if (isTestScene) return;
@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!canMove || isTestScene) return;
@@ -53,6 +52,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = xDirection + zDirection;
 
-        rb.velocity = moveSpeed * Time.fixedDeltaTime * move;
+        rb.velocity = moveSpeed * speedMultiplier * Time.fixedDeltaTime * move;
+    }
+
+    public void SetSpeedMultiplier(float speedMultiplier)
+    {
+        this.speedMultiplier = speedMultiplier;
     }
 }

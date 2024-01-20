@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoseScene.unity
     guid: 17daa0180f2fc384094ed1d23862b27e
+  - enabled: 1
+    path: Assets/Scenes/SkillSelection.unity
+    guid: d967df8939a2cec4393a922f7a704841
   m_configObjects: {}

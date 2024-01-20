@@ -31,7 +31,7 @@ public class ExitMaze : Interactable
     {
         if (treasure == null)
         {
-            Debug.Log("Treasure Not Found");
+            Debug.LogWarning("Treasure Not Found");
             return;
         }
 

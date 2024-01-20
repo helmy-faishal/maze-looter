@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] int maxHealth = 5;
 
-    ReviveSkill reviveSkill;
+    public ReviveSkill reviveSkill;
     bool IsPlayerCanRevive
     {
         get { return reviveSkill != null; }
@@ -21,7 +21,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        reviveSkill = GetComponent<ReviveSkill>();
         UIManager.Instance?.SetHealthText(health);
     }
 

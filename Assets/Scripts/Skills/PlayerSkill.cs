@@ -7,7 +7,8 @@ public enum SkillType
 {
     None,
     Stealth,
-    Revive
+    Revive,
+    Sprint
 }
 
 public class PlayerSkill : MonoBehaviour
@@ -36,11 +37,11 @@ public class PlayerSkill : MonoBehaviour
     {
         if (Input.GetKeyDown(this.skillKey))
         {
-            this.UsingSkillImmediately(func);
+            this.UsingSkillNow(func);
         }
     }
 
-    public void UsingSkillImmediately(Action func)
+    public void UsingSkillNow(Action func)
     {
         if (maxSkillUsage <= 0 || !this.CanUseSkill) return;
 

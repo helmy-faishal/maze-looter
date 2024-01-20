@@ -18,6 +18,26 @@ public class StealthSkill : PlayerSkill
     private void Start()
     {
         UIManager.Instance?.SetSkillText(this.maxSkillUsage);
+        SetDetectPlayer();
+    }
+
+    void SetDetectPlayer()
+    {
+        DetectPlayer[] detectPlayers = FindObjectsOfType<DetectPlayer>();
+
+        foreach (DetectPlayer detectPlayer in detectPlayers)
+        {
+            if (detectPlayer == null) continue;
+
+            this.OnSkillActive += detectPlayer.SetPlayerUndetectable;
+            this.OnSkillDeactivate += detectPlayer.SetPlayerDetectable;
+        }
+    }
+
+    private void OnDisable()
+    {
+        this.OnSkillActive = null;
+        this.OnSkillDeactivate = null;
     }
 
     void Update()

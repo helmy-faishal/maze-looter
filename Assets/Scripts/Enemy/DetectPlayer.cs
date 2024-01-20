@@ -70,8 +70,6 @@ public class DetectPlayer : MonoBehaviour
         }
     }
 
-    PlayerSkill skill;
-
     private void Awake()
     {
         enemyAI = GetComponent<EnemyAI>();
@@ -84,9 +82,6 @@ public class DetectPlayer : MonoBehaviour
 
         playerInteraction = player.GetComponent<PlayerInteraction>();
         SetTreasurePicked();
-
-        skill = FindObjectOfType<PlayerSkill>();
-        SetSkill();
     }
 
     void SetTreasurePicked()
@@ -96,40 +91,19 @@ public class DetectPlayer : MonoBehaviour
         playerInteraction.OnPlayerPickTreasure += GoToTreasure;
     }
 
-    void SetSkill()
-    {
-        if (skill == null) return;
-
-        if (skill.skillType == SkillType.Stealth || skill.skillType == SkillType.Revive)
-        {
-            skill.OnSkillActive += SetPlayerUndetectable;
-
-            skill.OnSkillDeactivate += SetPlayerDetectable;
-        }
-    }
-
     private void OnDisable()
     {
-        if (skill == null) return;
-
-        if (skill.skillType == SkillType.Stealth || skill.skillType == SkillType.Revive)
-        {
-            skill.OnSkillActive -= SetPlayerUndetectable;
-
-            skill.OnSkillDeactivate -= SetPlayerDetectable;
-        }
-
         if (playerInteraction == null) return;
 
         playerInteraction.OnPlayerPickTreasure -= GoToTreasure;
     }
 
-    void SetPlayerDetectable()
+    public void SetPlayerDetectable()
     {
         CanDetectPlayer = true;
     }
 
-    void SetPlayerUndetectable()
+    public void SetPlayerUndetectable()
     {
         CanDetectPlayer = false;
     }
@@ -168,6 +142,7 @@ public class DetectPlayer : MonoBehaviour
             if (!hit.transform.CompareTag("Player")) return;
 
             IsChasing = true;
+            enemyAwareness = delayToChase;
         }
     }
 
