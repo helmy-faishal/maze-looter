@@ -15,6 +15,8 @@ public class EnemyAI : MonoBehaviour
     public ChaseState chaseState = new ChaseState();
     IBaseState currentState;
 
+    float baseSpeed;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -23,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         currentState = patrolState;
-
+        baseSpeed = agent.speed;
     }
 
     void LateUpdate()
@@ -61,6 +63,11 @@ public class EnemyAI : MonoBehaviour
     public void SpeedUpEnemy(float speedMultiplier)
     {
         agent.speed *= speedMultiplier;
+    }
+
+    public void ResetEnemySpeed()
+    {
+        agent.speed = baseSpeed;
     }
     
     public Transform GetRandomWaypoints()

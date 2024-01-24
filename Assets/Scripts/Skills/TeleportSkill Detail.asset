@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7293ddfc69bb3774c9b7ef58672ec281, type: 3}
+  m_Name: TeleportSkill Detail
+  m_EditorClassIdentifier: 
+  skillIcon: {fileID: 0}
+  skillName: Teleport
+  skillDescription: 'Press Skill to place/retrieve the teleportation point, Hold
+    Skill to use the skill. When using the skill, there is a delay of 5 seconds before
+    and 2 seconds after teleportation, and the player cannot move.
+
+    Skill Usage
+    = 1 times'
+  skillType: 4
+  skillPrefab: {fileID: 2850707362175164971, guid: 1cabe7be74d504e40887950b91762b3a, type: 3}

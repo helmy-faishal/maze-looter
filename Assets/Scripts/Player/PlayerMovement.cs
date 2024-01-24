@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float moveSpeed = 200f;
     [SerializeField] Transform cameraTransform;
 
+    CameraSwitching cameraSwitching;
     Rigidbody rb;
 
     float horizontal, vertical;
@@ -17,6 +18,36 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void OnEnable()
+    {
+        cameraSwitching = FindObjectOfType<CameraSwitching>();
+
+        if (cameraSwitching != null )
+        {
+            cameraSwitching.OnCameraStartMove += PlayerCannotMove;
+            cameraSwitching.OnCameraEndMove += PlayerCanMove;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (cameraSwitching != null)
+        {
+            cameraSwitching.OnCameraStartMove -= PlayerCannotMove;
+            cameraSwitching.OnCameraEndMove -= PlayerCanMove;
+        }
+    }
+
+    public void PlayerCanMove()
+    {
+        canMove = true;
+    }
+
+    public void PlayerCannotMove()
+    {
+        canMove = false;
     }
 
     void Start()

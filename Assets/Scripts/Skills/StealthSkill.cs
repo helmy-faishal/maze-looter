@@ -9,7 +9,6 @@ public class StealthSkill : PlayerSkill
 
     private void Awake()
     {
-        this.isDetectableWhenActive = false;
         this.skillType = SkillType.Stealth;
         this.skillDelay = skillDuration;
         this.maxSkillUsage = skillUsage;

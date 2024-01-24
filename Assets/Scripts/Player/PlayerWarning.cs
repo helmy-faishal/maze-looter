@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWarning : MonoBehaviour
 {
     [SerializeField] GameObject warningObject;
+    [SerializeField] Camera _camera;
     Animator animator;
 
     const string WarningBlinking = "Blinking";
@@ -22,6 +23,20 @@ public class PlayerWarning : MonoBehaviour
     private void Start()
     {
         animator = warningObject.GetComponentInChildren<Animator>();
+
+        if (_camera == null)
+        {
+            _camera = Camera.main;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 rotation = Vector3.zero;
+        rotation.y = _camera.transform.localRotation.eulerAngles.y;
+        Quaternion quaternion = Quaternion.identity;
+        quaternion.eulerAngles = rotation;
+        warningObject.transform.localRotation = quaternion ;
     }
 
     public void SetActiveWarning(bool active)

@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,25 +13,34 @@ public class CameraSwitching : MonoBehaviour
     [SerializeField] float moveToAboveDelay = 2f;
     [SerializeField] float moveToFreeLookDelay = 2f;
 
-    PlayerMovement playerMovement;
+    public Action OnCameraStartMove;
+    public Action OnCameraEndMove;
+
+    [HideInInspector]
+    public bool isMoving = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        playerMovement = FindObjectOfType<PlayerMovement>();
-        playerMovement.canMove = false;
-
+        isMoving = true;
+        ResetCameraPriority();
         cameraChest.Priority = 20;
+        OnCameraStartMove?.Invoke();
+        StartCoroutine(MoveToAboveCoroutine());
+    }
+
+    void ResetCameraPriority()
+    {
+        cameraChest.Priority = 10;
         cameraAbove.Priority = 10;
         cameraFreeLook.Priority = 10;
-        StartCoroutine(MoveToAboveCoroutine());
     }
 
     IEnumerator MoveToAboveCoroutine()
     {
         yield return new WaitForSeconds(moveToAboveDelay);
-        cameraChest.Priority = 10;
+        ResetCameraPriority();
         cameraAbove.Priority = 20;
-        cameraFreeLook.Priority = 10;
 
         StartCoroutine(MoveToFreeLookCoroutine());
     }
@@ -38,10 +48,9 @@ public class CameraSwitching : MonoBehaviour
     IEnumerator MoveToFreeLookCoroutine()
     {
         yield return new WaitForSeconds(moveToFreeLookDelay);
-        cameraChest.Priority = 10;
-        cameraAbove.Priority = 10;
+        ResetCameraPriority();
         cameraFreeLook.Priority = 20;
-
-        playerMovement.canMove = true;
+        OnCameraEndMove?.Invoke();
+        isMoving = false;
     }
 }

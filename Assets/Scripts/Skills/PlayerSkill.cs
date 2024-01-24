@@ -8,7 +8,8 @@ public enum SkillType
     None,
     Stealth,
     Revive,
-    Sprint
+    Sprint,
+    Teleport
 }
 
 public class PlayerSkill : MonoBehaviour
@@ -18,19 +19,23 @@ public class PlayerSkill : MonoBehaviour
     public Action OnSkillDeactivate;
 
     [HideInInspector]
-    public bool isDetectableWhenActive = true;
-    [HideInInspector]
     public SkillType skillType = SkillType.None;
     [HideInInspector]
     public int maxSkillUsage = 1;
     [HideInInspector]
     public float skillDelay = 3f;
 
+    CameraSwitching cameraSwitching;
     bool canUseSkill = true;
     public bool CanUseSkill
     {
         get { return canUseSkill; }
         set { canUseSkill = value; }
+    }
+
+    private void OnEnable()
+    {
+        cameraSwitching = FindObjectOfType<CameraSwitching>();
     }
 
     public void UsingSkill(Action func)
@@ -41,9 +46,20 @@ public class PlayerSkill : MonoBehaviour
         }
     }
 
-    public void UsingSkillNow(Action func)
+    public void UsingSkillNow(Action func, bool reduceSkillUsage = true)
     {
+        if (cameraSwitching != null)
+        {
+            if (cameraSwitching.isMoving) return;
+        }
+
         if (maxSkillUsage <= 0 || !this.CanUseSkill) return;
+
+        if (!reduceSkillUsage)
+        {
+            func?.Invoke();
+            return;
+        }
 
         maxSkillUsage--;
 

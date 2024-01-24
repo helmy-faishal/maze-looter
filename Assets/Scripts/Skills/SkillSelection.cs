@@ -22,6 +22,7 @@ public class SkillSelection : MonoBehaviour
     float timer;
 
     SkillType playerSkillType = SkillType.None;
+    GameObject skillObject = null;
 
     private Action OnSkillSelected;
 
@@ -71,12 +72,13 @@ public class SkillSelection : MonoBehaviour
             }
 
             SkillType skillType = playerSkillDetail.PlayerSkillType;
+            GameObject skillPrefab = playerSkillDetail.SkillPrefab;
 
-            AddButtonListener(obj,skillType);
+            AddButtonListener(obj,skillType, skillPrefab);
         }
     }
 
-    void AddButtonListener(GameObject obj, SkillType skillType)
+    void AddButtonListener(GameObject obj, SkillType skillType, GameObject skillObj)
     {
         Button button = obj.GetComponent<Button>();
         Image image = obj.GetComponent<Image>();
@@ -91,6 +93,7 @@ public class SkillSelection : MonoBehaviour
             OnSkillSelected?.Invoke();
             image.sprite = selectedSkillSprite;
             playerSkillType = skillType;
+            skillObject = skillObj;
         });
     }
 
@@ -118,6 +121,7 @@ public class SkillSelection : MonoBehaviour
             }
 
             GameSession.Instance.playerSkillType = playerSkillType;
+            GameSession.Instance.skillObject = skillObject;
             SceneSwitching.Instance.PlayGame();
         }
     }

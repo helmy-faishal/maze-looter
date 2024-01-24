@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ExitMaze : Interactable
 {
+    [HideInInspector]
     public bool canExitMaze = false;
     Treasure treasure;
 
@@ -20,11 +21,19 @@ public class ExitMaze : Interactable
     private void OnEnable()
     {
         this.OnObjectInteracted += ProcessExit;
+        this.OnPlayerEnter += () =>
+        {
+            this.SetInteractionInfoActive(true, "Press F to exit maze");
+        };
+        this.OnPlayerExit += () =>
+        {
+            this.SetInteractionInfoActive(false);
+        };
     }
 
     private void OnDisable()
     {
-        this.OnObjectInteracted -= ProcessExit;
+        this.RemoveAllAction();
     }
 
     void ProcessExit()
@@ -35,6 +44,15 @@ public class ExitMaze : Interactable
             return;
         }
 
-        canExitMaze = treasure.isPickedUp;
+        canExitMaze = treasure.IsPickedUp;
+
+        if (canExitMaze)
+        {
+            SceneSwitching.Instance?.WinScene();
+        }
+        else
+        {
+            UIManager.Instance?.SetWarningActive("You haven't picked up the Treasure");
+        }
     }
 }

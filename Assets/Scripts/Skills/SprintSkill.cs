@@ -12,7 +12,6 @@ public class SprintSkill : PlayerSkill
     PlayerMovement playerMovement;
     private void Awake()
     {
-        this.isDetectableWhenActive = true;
         this.skillType = SkillType.Sprint;
         this.skillDelay = skillDuration;
         this.maxSkillUsage = skillUsage;

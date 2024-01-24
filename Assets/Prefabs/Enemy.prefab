@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTestScene: 0
   waypoints: []
+  assemblyWaypoints: {fileID: 0}
   agent: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &8139256563747006356
@@ -238,7 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRange: 8
+  rangeMultiplier: 1.25
   delayToChase: 2
+  delayToAwarePlayer: 2
   _isPlayerDetected: 0
   enemyAwareness: 0
   _isChasing: 0
@@ -491,3 +494,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d4c8b54be351243ad11af4c80e3f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponDamage: 1

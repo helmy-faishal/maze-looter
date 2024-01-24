@@ -15,11 +15,19 @@ public class Treasure : Interactable
     private void OnEnable()
     {
         this.OnObjectInteracted += TreasurePickedUp;
+        this.OnPlayerEnter += () =>
+        {
+            this.SetInteractionInfoActive(true,"Press F to picking up Treasure");
+        };
+        this.OnPlayerExit += () =>
+        {
+            this.SetInteractionInfoActive(false);
+        };
     }
 
     private void OnDisable()
     {
-        this.OnObjectInteracted -= TreasurePickedUp;
+        this.RemoveAllAction();
     }
 
     void TreasurePickedUp()
@@ -29,6 +37,8 @@ public class Treasure : Interactable
             this.isPickedUp = true;
             gameObject.SetActive(false);
             OnTreasurePickedUp?.Invoke();
+            this.SetInteractionInfoActive(false);
+            UIManager.Instance?.SetObjectiveText("- Exit Maze");
         }
     }
 }

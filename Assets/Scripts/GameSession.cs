@@ -8,24 +8,26 @@ public class GameSession : MonoBehaviour
 {
     public static GameSession Instance;
 
-
     public bool isGameScene = false;
 
     public SkillType playerSkillType = SkillType.None;
+    public GameObject skillObject;
 
     private void Awake()
     {
         if (Instance != null)
         {
-            Destroy(gameObject);
-            return;
+            this.isGameScene = Instance.isGameScene;
+            this.playerSkillType = Instance.playerSkillType;
+            this.skillObject = Instance.skillObject;
+            Destroy(Instance.gameObject);
         }
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    void Update()
+    void Start()
     {
         if (isGameScene)
         {
@@ -56,12 +58,20 @@ public class GameSession : MonoBehaviour
             case SkillType.Sprint:
                 player.AddComponent<SprintSkill>();
                 break;
+
             case SkillType.Stealth:
                 player.AddComponent<StealthSkill>();
                 break;
+
             case SkillType.Revive:
                 player.AddComponent<ReviveSkill>();
                 break;
+
+            case SkillType.Teleport: 
+                TeleportSkill teleport = player.AddComponent<TeleportSkill>();
+                teleport.teleportPointObject = skillObject;
+                break;
+
             default: 
                 break;
         }

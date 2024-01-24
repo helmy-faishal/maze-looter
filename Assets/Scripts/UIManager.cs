@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text objectiveText;
     [SerializeField] GameObject warningObject;
+    [SerializeField] TMP_Text warningText;
     [SerializeField] float warningDelay = 2f;
 
     public static UIManager Instance;
@@ -39,9 +40,10 @@ public class UIManager : MonoBehaviour
         objectiveText.text = text;
     }
 
-    public void SetWarningActive()
+    public void SetWarningActive(string text="Warning !")
     {
         StopAllCoroutines();
+        warningText.text = text;
         StartCoroutine(NotificationCoroutine(warningObject));
     }
 

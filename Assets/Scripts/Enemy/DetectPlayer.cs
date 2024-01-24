@@ -6,12 +6,13 @@ using UnityEngine;
 public class DetectPlayer : MonoBehaviour
 {
     [SerializeField] float detectionRange = 5f;
+    [SerializeField] float rangeMultiplier = 1.25f;
     [SerializeField] float delayToChase = 4f;
-    [SerializeField] float delayToAwarePlayer = 3f;
+    [SerializeField] float delayToAwarePlayer = 2f;
 
     Transform player;
-    PlayerInteraction playerInteraction;
     EnemyAI enemyAI;
+    Treasure treasure;
 
     [SerializeField] bool _isPlayerDetected = false;
     bool IsPlayerDetected
@@ -64,8 +65,8 @@ public class DetectPlayer : MonoBehaviour
             if (!_canDetectPlayer)
             {
                 enemyAwareness = 0;
-                IsPlayerDetected = false;
                 IsChasing = false;
+                IsPlayerDetected = false;
             }
         }
     }
@@ -79,23 +80,27 @@ public class DetectPlayer : MonoBehaviour
     private void Start()
     {
         player = enemyAI.player;
-
-        playerInteraction = player.GetComponent<PlayerInteraction>();
-        SetTreasurePicked();
     }
 
-    void SetTreasurePicked()
+    private void OnEnable()
     {
-        if (playerInteraction == null) return;
+        treasure = FindObjectOfType<Treasure>();
 
-        playerInteraction.OnPlayerPickTreasure += GoToTreasure;
+        if (treasure == null)
+        {
+            Debug.LogWarning("Treasure not found");
+            return;
+        }
+
+        treasure.OnTreasurePickedUp += GoToTreasure;
     }
 
     private void OnDisable()
     {
-        if (playerInteraction == null) return;
-
-        playerInteraction.OnPlayerPickTreasure -= GoToTreasure;
+        if (treasure != null)
+        {
+            treasure.OnTreasurePickedUp -= GoToTreasure;
+        }
     }
 
     public void SetPlayerDetectable()
@@ -117,7 +122,9 @@ public class DetectPlayer : MonoBehaviour
     IEnumerator GoToTreasureCoroutine()
     {
         yield return new WaitForSeconds(delayToAwarePlayer);
+        UIManager.Instance?.SetWarningActive("Enemies start moving to the treasure room");
         enemyAI.MoveToAssemblyWaypoint();
+        detectionRange *= rangeMultiplier;
     }
 
     void Update()
