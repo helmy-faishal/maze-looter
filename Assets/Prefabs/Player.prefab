@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 768039652040037334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.8000002, z: -3.7999992}
+  m_LocalPosition: {x: 0, y: 3.8000002, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -167,7 +167,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: 0
     m_MaxValue: 1
     m_Wrap: 0
@@ -215,11 +215,11 @@ MonoBehaviour:
   m_SplineCurvature: 0.2
   m_Orbits:
   - m_Height: 3.8
-    m_Radius: 3.8
-  - m_Height: 2.5
+    m_Radius: 5
+  - m_Height: 0.95
     m_Radius: 5
   - m_Height: -0.5
-    m_Radius: 3
+    m_Radius: 3.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 4379079452203360289}
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 3.8, z: -3.8}
+  m_FollowOffset: {x: 0, y: 3.8, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -616,7 +616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8803474745332177674
 Transform:
   m_ObjectHideFlags: 0
@@ -5452,7 +5452,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3181406685092620121}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: 0.000000022481219, z: -0.000000009312028, w: 0.9238795}
+  m_LocalRotation: {x: 0.31924742, y: 0.000000016305997, z: -0.000000005493092, w: 0.9476714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5606,7 +5606,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4347056154313623031}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.36581528, y: 0.000000022646878, z: -0.000000008901564, w: 0.9306875}
+  m_LocalRotation: {x: 0.30195695, y: -3e-45, z: 1e-45, w: 0.9533216}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5719,7 +5719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 3.8, z: -3.8}
+  m_FollowOffset: {x: 0, y: 3.8, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -5889,7 +5889,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5699859070610761342}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34887105, y: 0.000000016125318, z: -0.0000000060028094, w: 0.93717074}
+  m_LocalRotation: {x: 0.2846126, y: -0, z: -0, w: 0.95864266}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6002,7 +6002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 3.8, z: -3.8}
+  m_FollowOffset: {x: 0, y: 3.8, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -6708,6 +6708,7 @@ GameObject:
   - component: {fileID: 1338765886415823495}
   - component: {fileID: 6452269231809974793}
   - component: {fileID: 6702650465778941861}
+  - component: {fileID: 2733021328196388461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6884,6 +6885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warningObject: {fileID: 8469403393086653475}
+  _camera: {fileID: 0}
 --- !u!114 &6702650465778941861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6898,6 +6900,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   reviveSkill: {fileID: 0}
+--- !u!114 &2733021328196388461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993112435498702037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 260bfb5bda4b06e4c986a6f3d4f8b844, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9ab363dc-e121-4946-8ca7-292fbe6792f3
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow,/Device
+      Simulator Touchscreen/delta,/Simulated Touchscreen/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f0d84965-3513-4a44-a1a4-ef0051229d69
+    m_ActionName: Player/Skill[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a835430d-7953-40b4-8f4b-3b90bcb30d73
+    m_ActionName: Player/Interact[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ee3f5cb7-f38e-4ccc-aed3-f537f2fe6d5d
+    m_ActionName: Player/MoveTouch[/Device Simulator Touchscreen/delta,/Simulated
+      Touchscreen/delta]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &8739292605925702002
 PrefabInstance:
   m_ObjectHideFlags: 0

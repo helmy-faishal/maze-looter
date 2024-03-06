@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
 public class SprintSkill : PlayerSkill
 {
     [SerializeField] int skillUsage = 5;
@@ -10,22 +9,28 @@ public class SprintSkill : PlayerSkill
     [SerializeField] float speedMultiplier = 1.5f;
 
     PlayerMovement playerMovement;
-    private void Awake()
+
+    public override void SetAwake()
     {
+        base.SetAwake();
         this.skillType = SkillType.Sprint;
         this.skillDelay = skillDuration;
         this.maxSkillUsage = skillUsage;
     }
 
-    void Start()
+    public override void SetStart()
     {
+        base.SetStart();
         UIManager.Instance?.SetSkillText(this.maxSkillUsage);
         SetSprintSkill();
+
+        this.OnPerformedTap += () => { this.UsingSkillNow(); };
+        this.OnPerformedHold += () => { this.UsingSkillNow(); };
     }
 
     void SetSprintSkill()
     {
-        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        playerMovement = this.player.GetComponent<PlayerMovement>();
 
         if (playerMovement == null)
         {
@@ -44,14 +49,10 @@ public class SprintSkill : PlayerSkill
         };
     }
 
-    private void OnDisable()
+    public override void SetDisable()
     {
+        base.SetDisable();
         this.OnSkillActive = null;
         this.OnSkillDeactivate = null;
-    }
-
-    void Update()
-    {
-        this.UsingSkill(null);
     }
 }

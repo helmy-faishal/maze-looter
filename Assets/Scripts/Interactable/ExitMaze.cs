@@ -8,18 +8,21 @@ public class ExitMaze : Interactable
     public bool canExitMaze = false;
     Treasure treasure;
 
-    private void Awake()
+    public override void SetAwake()
     {
-        this.isPickable = false;
+        this.isInteractionInput = true;
+        base.SetAwake();
     }
 
-    private void Start()
+    public override void SetStart()
     {
+        base.SetStart();
         treasure = FindObjectOfType<Treasure>();
     }
 
-    private void OnEnable()
+    public override void SetOnEnable()
     {
+        base.SetOnEnable();
         this.OnObjectInteracted += ProcessExit;
         this.OnPlayerEnter += () =>
         {
@@ -29,11 +32,6 @@ public class ExitMaze : Interactable
         {
             this.SetInteractionInfoActive(false);
         };
-    }
-
-    private void OnDisable()
-    {
-        this.RemoveAllAction();
     }
 
     void ProcessExit()

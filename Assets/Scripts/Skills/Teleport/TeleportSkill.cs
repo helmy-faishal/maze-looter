@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
 public class TeleportSkill : PlayerSkill
 {
     [SerializeField] int skillUsage = 1;
@@ -14,56 +13,65 @@ public class TeleportSkill : PlayerSkill
     public GameObject teleportPointObject;
 
     TeleportPoint teleportTarget;
+    bool HasTarget { get { return teleportTarget != null; } }
+
     ParticleSystem teleportEffect;
     PlayerMovement playerMovement;
 
     float holdValue = 0f;
     bool canSpawn = true;
+    bool isHolding = false;
 
-    private void Awake()
+    public override void SetAwake()
     {
+        base.SetAwake();
         this.skillType = SkillType.Teleport;
         this.skillDelay = startDelay + skillDuration;
         this.maxSkillUsage = skillUsage;
     }
 
-    void Start()
+    public override void SetStart()
     {
+        base.SetStart();
+
         holdValue = 0f;
         canSpawn = true;
         UIManager.Instance?.SetSkillText(this.maxSkillUsage);
 
-        teleportEffect = gameObject.GetComponentInChildren<ParticleSystem>();
-        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        teleportEffect = player.GetComponentInChildren<ParticleSystem>();
+        playerMovement = player.GetComponent<PlayerMovement>();
 
         this.OnSkillActive += playerMovement.PlayerCannotMove;
         this.OnSkillDeactivate += playerMovement.PlayerCanMove;
 
         this.OnSkillDeactivate += () => { PlayTeleportEffect(false); };
+
+        this.OnPerformedTap += () => { ProcessTapSkill(); };
+        this.OnPerformedHold += () => { SetHoldingSkill(true); };
+
+        this.OnCanceledHold += () => { SetHoldingSkill(false); };
     }
 
-    private void OnDisable()
+    public override void SetDisable()
     {
+        base.SetDisable();
         this.OnSkillActive = null;
         this.OnSkillDeactivate = null;
+        this.OnPerformedTap = null;
+        this.OnPerformedHold = null;
+        this.OnCanceledHold = null;
     }
 
     void Update()
     {
-        if (Input.GetKey(this.skillKey) && this.CanUseSkill)
+        if (isHolding && this.CanUseSkill)
         {
             ProcessHoldKey();
         }
-        else
-        {
-            ProcessPressKey();
-        }
     }
 
-    private void ProcessPressKey()
+    void ProcessTapSkill()
     {
-        if (holdValue <= 0) return;
-
         if (canSpawn)
         {
             this.UsingSkillNow(SpawnTeleportPoint, false);
@@ -73,7 +81,7 @@ public class TeleportSkill : PlayerSkill
         {
             bool showWarning = false;
 
-            if (teleportTarget != null)
+            if (HasTarget)
             {
                 showWarning = !teleportTarget.IsPlayerNearObject;
             }
@@ -88,18 +96,25 @@ public class TeleportSkill : PlayerSkill
         holdValue = 0f;
     }
 
+    void SetHoldingSkill(bool value)
+    {
+        holdValue = 0;
+        SetUsingSkillInfo(0);
+        isHolding = value;
+    }
+
     private void ProcessHoldKey()
     {
         holdValue = Mathf.Clamp(holdValue + Time.deltaTime, 0, holdDelay);
 
-        if (teleportTarget != null)
+        if (HasTarget)
         {
             SetUsingSkillInfo(holdValue / holdDelay);
         }
 
         if (holdValue < holdDelay) return;
 
-        if (teleportTarget != null)
+        if (HasTarget)
         {
             this.UsingSkillNow(StartTeleport);
             PlayTeleportEffect(true);
@@ -125,26 +140,25 @@ public class TeleportSkill : PlayerSkill
 
     void SetUsingSkillInfo(float value)
     {
-        if (value <= 0)
-        {
-            InteractionUI.Instance?.SetSkillIndicator(false);
-            InteractionUI.Instance?.SetSkillFill(0);
-        }
-        else
+        if (value > 0 && HasTarget)
         {
             InteractionUI.Instance?.SetSkillIndicator(true);
             InteractionUI.Instance?.SetSkillFill(value);
+        }
+        else
+        {
+            InteractionUI.Instance?.SetSkillIndicator(false);
         }
     }
 
     void SpawnTeleportPoint()
     {
-        if (teleportTarget != null)
+        if (HasTarget)
         {
             return;
         }
 
-        Vector3 spawnPoint = transform.position;
+        Vector3 spawnPoint = player.position;
         spawnPoint.y = 0.01f;
         GameObject point = Instantiate(teleportPointObject, spawnPoint, Quaternion.identity);
         TeleportPoint teleportPoint = point.GetComponent<TeleportPoint>();
@@ -154,6 +168,7 @@ public class TeleportSkill : PlayerSkill
 
     void StartTeleport()
     {
+        isHolding = false;
         StartCoroutine(StartTeleportCoroutine());
     }
 
@@ -161,16 +176,16 @@ public class TeleportSkill : PlayerSkill
     {
         yield return new WaitForSeconds(startDelay);
         Vector3 teleportCoordinate = teleportTarget.transform.position;
-        teleportCoordinate.y = transform.position.y;
+        teleportCoordinate.y = player.position.y;
 
-        transform.position = teleportCoordinate;
+        player.position = teleportCoordinate;
 
         DestroyTeleportPoint();
     }
 
     void DestroyTeleportPoint()
     {
-        if (teleportTarget != null)
+        if (HasTarget)
         {
             Destroy(teleportTarget.gameObject);
             teleportTarget = null;

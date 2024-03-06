@@ -114,14 +114,14 @@ public class SkillSelection : MonoBehaviour
 
         if (timer <= 0)
         {
-            if (GameSession.Instance == null || SceneSwitching.Instance == null)
+            if (SceneSwitching.Instance == null)
             {
-                Debug.LogWarning("GameSession or SceneSwitching not found");
+                Debug.LogWarning("SceneSwitching not found");
                 return;
             }
 
-            GameSession.Instance.playerSkillType = playerSkillType;
-            GameSession.Instance.skillObject = skillObject;
+            SceneSwitching.Instance.skillType = playerSkillType;
+            SceneSwitching.Instance.skillPrefab = skillObject;
             SceneSwitching.Instance.PlayGame();
         }
     }

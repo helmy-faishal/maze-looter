@@ -6,29 +6,37 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitching : MonoBehaviour
 {
+    [HideInInspector]
+    public SkillType skillType = SkillType.None;
+    [HideInInspector]
+    public GameObject skillPrefab;
+
     public static SceneSwitching Instance;
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            this.skillType = Instance.skillType;
+            this.skillPrefab = Instance.skillPrefab;
+            Destroy(Instance.gameObject);
+        }
+
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void SwitchScene(string sceneName, bool isGameScene = false)
+    public void SwitchScene(string sceneName)
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        if (GameSession.Instance != null)
-        {
-            GameSession.Instance.isGameScene = isGameScene;
-        }
         
         SceneManager.LoadScene(sceneName);
     }
 
     public void PlayGame()
     {
-        SwitchScene("Game",true);
+        SwitchScene("Game");
     }
 
     public void MainMenu()

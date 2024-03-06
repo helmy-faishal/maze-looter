@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     CameraSwitching cameraSwitching;
     Rigidbody rb;
+    PlayerInputAction action;
+    InputAction MoveInput;
 
     float horizontal, vertical;
     float speedMultiplier = 1;
@@ -18,10 +21,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        action = new PlayerInputAction();
     }
 
     private void OnEnable()
     {
+        action.Player.Enable();
+
         cameraSwitching = FindObjectOfType<CameraSwitching>();
 
         if (cameraSwitching != null )
@@ -33,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
+        action.Player.Disable();
+
         if (cameraSwitching != null)
         {
             cameraSwitching.OnCameraStartMove -= PlayerCannotMove;
@@ -47,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerCannotMove()
     {
+        rb.velocity = Vector3.zero;
         canMove = false;
     }
 
@@ -56,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        MoveInput = action.Player.Move;
     }
 
     void Update()
@@ -72,8 +83,9 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        Vector2 move = MoveInput.ReadValue<Vector2>();
+        horizontal = move.x;
+        vertical = move.y;
     }
 
     void MovePlayer()

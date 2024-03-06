@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class TeleportPoint : Interactable
 {
-    private void Awake()
+    public override void SetAwake()
     {
-        this.isPickable = true;
-        this.interactionKey = KeyCode.E;
+        this.isInteractionInput = false;
+        base.SetAwake();
     }
 
-    private void OnEnable()
+    public override void SetOnEnable()
     {
+        base.SetOnEnable();
         this.OnObjectInteracted += () =>
         {
             this.SetSkillInfoActive(false);
@@ -24,10 +25,5 @@ public class TeleportPoint : Interactable
         {
             this.SetSkillInfoActive(false);
         };
-    }
-
-    private void OnDisable()
-    {
-        this.RemoveAllAction();
     }
 }

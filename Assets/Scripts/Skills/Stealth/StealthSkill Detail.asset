@@ -19,3 +19,4 @@ MonoBehaviour:
 
     Skill usage = 5 times'
   skillType: 1
+  skillPrefab: {fileID: 6188332198943275134, guid: ca5505b23ed0e94478d9ae7e7d30a3d7, type: 3}

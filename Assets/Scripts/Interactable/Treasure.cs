@@ -7,27 +7,24 @@ public class Treasure : Interactable
 {
     public Action OnTreasurePickedUp;
 
-    private void Awake()
+    public override void SetAwake()
     {
-        this.isPickable = true;
+        this.isInteractionInput = true;
+        base.SetAwake();
     }
 
-    private void OnEnable()
+    public override void SetOnEnable()
     {
+        base.SetOnEnable();
         this.OnObjectInteracted += TreasurePickedUp;
         this.OnPlayerEnter += () =>
         {
-            this.SetInteractionInfoActive(true,"Press F to picking up Treasure");
+            this.SetInteractionInfoActive(true, "Press F to picking up Treasure");
         };
         this.OnPlayerExit += () =>
         {
             this.SetInteractionInfoActive(false);
         };
-    }
-
-    private void OnDisable()
-    {
-        this.RemoveAllAction();
     }
 
     void TreasurePickedUp()
